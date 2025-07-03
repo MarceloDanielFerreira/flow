@@ -37,13 +37,19 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Copy environment file
+      - name: Copy .env
         run: cp .env.example .env
+
+      - name: Set environment for SQLite in-memory
+        run: |
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=:memory:" >> .env
 
       - name: Generate app key
         run: php artisan key:generate
 
       - name: Run migrations
         run: php artisan migrate --no-interaction --force
-      - name: Execute tests
+
+      - name: Run tests
         run: php artisan test
