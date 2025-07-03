@@ -17,6 +17,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -30,5 +31,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Obtiene el rol del usuario.
+     *
+     * @return string|null
+     */
+    public function getRole(): ?string
+    {
+        return $this->role;
     }
 }
