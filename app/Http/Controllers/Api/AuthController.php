@@ -9,11 +9,28 @@ use Illuminate\Support\Facades\Auth;
 /**
  * @OA\Info(
  *     version="1.0.0",
- *     title="API de Autenticación",
- *     description="Documentación de la API para login, logout y usuario autenticado",
+ *     title="API de Tableros Kanban",
+ *     description="API para la gestión de tableros, columnas y tareas tipo Kanban. Permite a los usuarios crear tableros personalizados, definir columnas (estados) y gestionar tareas de manera dinámica. Todas las rutas están protegidas por autenticación y auditoría.",
  *     @OA\Contact(
- *         email="tu-email@ejemplo.com"
+ *         email="marcelod.ferreira.dev@gmail.com",
+ *         name="Soporte API"
+ *     ),
+ *     @OA\License(
+ *         name="MIT",
+ *         url="https://opensource.org/licenses/MIT"
  *     )
+ * )
+ *
+ * @OA\Server(
+ *     url="/api",
+ *     description="API principal"
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="sanctum",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
  * )
  */
 class AuthController extends Controller
