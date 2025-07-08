@@ -1,13 +1,24 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API de Autenticación",
-        "description": "Documentación de la API para login, logout y usuario autenticado",
+        "title": "API de Tableros Kanban",
+        "description": "API para la gestión de tableros, columnas y tareas tipo Kanban. Permite a los usuarios crear tableros personalizados, definir columnas (estados) y gestionar tareas de manera dinámica. Todas las rutas están protegidas por autenticación y auditoría.",
         "contact": {
-            "email": "tu-email@ejemplo.com"
+            "name": "Soporte API",
+            "email": "marcelod.ferreira.dev@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "API principal"
+        }
+    ],
     "paths": {
         "/api/login": {
             "post": {
@@ -141,6 +152,1038 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2025-07-03T18:09:50.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards": {
+            "get": {
+                "tags": [
+                    "Boards"
+                ],
+                "summary": "Listar tableros del usuario autenticado",
+                "operationId": "1c46f6a3cf42b5393f7159231139ce2c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de tableros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Proyecto Ciencias Sociales"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tableros obtenidos correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Boards"
+                ],
+                "summary": "Crear un nuevo tablero",
+                "operationId": "b4ed40d9ca8b2dd91687a796129d6e70",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proyecto Ciencias Sociales"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tablero creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Proyecto Ciencias Sociales"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tablero creado exitosamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards/{id}": {
+            "get": {
+                "tags": [
+                    "Boards"
+                ],
+                "summary": "Mostrar un tablero específico",
+                "operationId": "cd6a242c8deaab186d4cb21422c43035",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del tablero",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Proyecto Ciencias Sociales"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tablero obtenido correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "No autorizado para ver este tablero."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Boards"
+                ],
+                "summary": "Actualizar un tablero",
+                "operationId": "ba7b10226a500bdff3639addc6455c31",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proyecto Ciencias Sociales"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tablero actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Proyecto Ciencias Sociales"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tablero actualizado correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "No autorizado para actualizar este tablero."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Boards"
+                ],
+                "summary": "Eliminar un tablero",
+                "operationId": "d49b48558ab9bca627acb1a35f410279",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tablero eliminado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tablero eliminado correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "No autorizado para eliminar este tablero."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards/{boardId}/columns": {
+            "get": {
+                "tags": [
+                    "Columns"
+                ],
+                "summary": "Listar columnas de un tablero",
+                "operationId": "d54196dcca90a574eca1501d6bad9e9c",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de columnas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "board_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Para investigar"
+                                                    },
+                                                    "orden": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Columnas obtenidas correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Columns"
+                ],
+                "summary": "Crear una columna en un tablero",
+                "operationId": "2f453b8290bba00cbc82d8580d5e7dad",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Para investigar"
+                                    },
+                                    "orden": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Columna creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "board_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Para investigar"
+                                                },
+                                                "orden": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Columna creada exitosamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards/{boardId}/columns/{columnId}": {
+            "put": {
+                "tags": [
+                    "Columns"
+                ],
+                "summary": "Actualizar una columna",
+                "operationId": "70ef880a0146afd651ae1b93d124203d",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "columnId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Investigando"
+                                    },
+                                    "orden": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Columna actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "board_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Investigando"
+                                                },
+                                                "orden": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Columna actualizada correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Columns"
+                ],
+                "summary": "Eliminar una columna",
+                "operationId": "b76c16181bf95c42915cb80dcf8b4ca4",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "columnId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Columna eliminada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Columna eliminada correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards/{boardId}/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Listar tareas de un tablero",
+                "operationId": "39eb72ccb28bb9a4d8c162061ddc4052",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tareas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "board_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "column_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "titulo": {
+                                                        "type": "string",
+                                                        "example": "Investigar tema 1"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Buscar información sobre el tema 1"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2024-07-08T12:00:00Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tareas obtenidas correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Crear una tarea en un tablero",
+                "operationId": "54f57fb7785b16cec7e3683f04c43d10",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "column_id"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Investigar tema 1"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Buscar información sobre el tema 1"
+                                    },
+                                    "column_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tarea creada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "board_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "column_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "titulo": {
+                                                    "type": "string",
+                                                    "example": "Investigar tema 1"
+                                                },
+                                                "descripcion": {
+                                                    "type": "string",
+                                                    "example": "Buscar información sobre el tema 1"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tarea creada exitosamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/boards/{boardId}/tasks/{taskId}": {
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Actualizar una tarea",
+                "operationId": "928c06a813ce641c7198e10ad32b9fe2",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Nuevo título"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Nueva descripción"
+                                    },
+                                    "column_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "board_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "column_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "titulo": {
+                                                    "type": "string",
+                                                    "example": "Nuevo título"
+                                                },
+                                                "descripcion": {
+                                                    "type": "string",
+                                                    "example": "Nueva descripción"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-07-08T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tarea actualizada correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Eliminar una tarea",
+                "operationId": "dd0fd06279769938a3c133510bf15957",
+                "parameters": [
+                    {
+                        "name": "boardId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarea eliminada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "mensaje": {
+                                            "type": "string",
+                                            "example": "Tarea eliminada correctamente."
                                         }
                                     },
                                     "type": "object"
@@ -499,12 +1542,31 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Boards",
+            "description": "Boards"
+        },
+        {
+            "name": "Columns",
+            "description": "Columns"
+        },
+        {
+            "name": "Tasks",
+            "description": "Tasks"
         },
         {
             "name": "Usuarios",

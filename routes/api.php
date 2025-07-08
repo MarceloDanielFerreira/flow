@@ -5,6 +5,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Middleware\RoleAuthMiddleware;
 use Illuminate\Support\Facades\Auth as AuthFacade;
+use App\Http\Controllers\Api\BoardController;
+use App\Http\Controllers\Api\ColumnController;
+use App\Http\Controllers\Api\TaskController;
 
 // Rutas de autenticación
 Route::prefix('auth')->group(function () {
@@ -34,4 +37,15 @@ Route::middleware([RoleAuthMiddleware::class . ':admin'])->group(function () {
     Route::post('/users', [UserController::class, 'store']);     // Crear usuario
     Route::put('/users/{id}', [UserController::class, 'update']); // Actualizar usuario
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // Eliminar usuario
+});
+
+Route::middleware(['auth:sanctum', 'auditoria'])->group(function () {
+    // Rutas de tableros
+    Route::apiResource('boards', BoardController::class);
+
+    // Rutas de columnas dentro de un tablero
+    Route::apiResource('boards.columns', ColumnController::class)->shallow();
+
+    // Rutas de tareas dentro de un tablero
+    Route::apiResource('boards.tasks', TaskController::class)->shallow();
 });
